@@ -1,0 +1,54 @@
+path_in=getDirectory("Greetings from Freiburg");	
+path_out=path_in+File.separator+"counted240, sceletonize, 20-Infinity";	
+File.makeDirectory(path_out);	
+lista=getFileList(path_in);	
+
+Dialog.create("liczenie");	
+Dialog.addCheckbox("Average when downsizing", true);
+//copyright A.Lobodzinska	
+Dialog.show();	
+
+factor=Dialog.getNumber();	
+
+
+setBatchMode(true);		
+for (k=0; k<lista.length; k++)		
+{
+	if (matches(lista[k], ".*.tif"))		
+	{	
+	open(path_in+File.separator+lista[k]);	
+	id=getImageID();	
+	title=getTitle();	
+	ntitle=replace(title, ".png","_counted.png");		
+
+run("Log");
+id1 = getImageID;
+run("Subtract Background...", "rolling=200 light separate");
+run("8-bit");
+setAutoThreshold("Default dark");
+run("Threshold...");
+setThreshold(0, 240);
+setOption("BlackBackground", true);
+//copyright A.Lobodzinska
+run("Convert to Mask");
+run("Close-");
+run("Skeletonize");
+run("Analyze Particles...", "size=20-Infinity show=Outlines display summarize");
+id2 = getImageID;
+
+saveAs("PNG", path_out+File.separator+ntitle);	
+
+	close();	
+selectImage(id1);
+	close();
+
+print(ntitle, " saved");		
+	}	
+	else 	
+	{
+	titled=lista[k];		
+	print("the file ", titled, " is not .tif");		
+	}
+}	
+print("koniec");	
+setBatchMode("exit and display");		

@@ -1,0 +1,46 @@
+path_in=getDirectory("Scale setting");	
+path_out=path_in+File.separator+"scaled4x";	
+File.makeDirectory(path_out);	
+
+lista=getFileList(path_in);	
+
+Dialog.create("dodawanie skali");	
+Dialog.addCheckbox("Average when downsizing", true);	
+//copyright A.Lobodzinska
+Dialog.show();	
+
+factor=Dialog.getNumber();	
+
+
+setBatchMode(true);		
+for (k=0; k<lista.length; k++)		
+{
+	if (matches(lista[k], ".*.tif"))		
+	{	
+	open(path_in+File.separator+lista[k]);	
+	id=getImageID();	
+	title=getTitle();	
+	ntitle=replace(title, ".tif","_scaled");	
+	
+//run("Brightness/Contrast...");
+//run("Enhance Contrast", "saturated=0.35");
+run("Set Scale...", "distance=1 known=0.07 unit=um");
+//copyright A.Lobodzinska
+run("Scale Bar...", "width=50 height=10 font=42 color=White background=None location=[Lower Right] overlay");
+
+	saveAs("PNG", path_out+File.separator+ntitle);	
+
+run("Set Scale...", "distance=0 known=0 pixel=1 unit=pixel global");
+
+	close();	
+
+print(ntitle, " saved");		
+	}	
+	else 	
+	{
+	titled=lista[k];		
+	print("the file ", titled, " is not .tif");		
+	}
+}	
+print("koniec");	
+setBatchMode("exit and display");		

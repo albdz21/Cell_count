@@ -1,0 +1,14 @@
+run("Log");
+id1 = getImageID;
+run("Subtract Background...", "rolling=200 light separate");
+run("8-bit");
+//setAutoThreshold("Default");
+//run("Threshold...");
+//setThreshold(0, 215);
+//run("Convert to Mask");
+//run("Close-");
+//run("Fill Holes");
+//copyright A.Lobodzinska
+//run("Analyze Particles...", "size=230-Infinity circularity=0.00-0.65 show=Outlines display exclude include summarize");
+//id2 = getImageID;
+//	saveAs("PNG", path_out+File.separator+ntitle);	

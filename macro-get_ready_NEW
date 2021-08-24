@@ -1,0 +1,4 @@
+
+run("Set Scale...", "distance=0 global");
+run("Set Measurements...", "area redirect=None decimal=3");
+close();

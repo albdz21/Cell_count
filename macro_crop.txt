@@ -1,0 +1,40 @@
+path_in=getDirectory("Greetings from Freiburg");	
+path_out=path_in+File.separator+"cropped";	
+File.makeDirectory(path_out);	
+
+lista=getFileList(path_in);	
+
+Dialog.create("cropping");	
+Dialog.addCheckbox("Average when downsizing", true);	
+//copyright A.Lobodzinska
+Dialog.show();	
+
+factor=Dialog.getNumber();	
+
+
+setBatchMode(true);		
+for (k=0; k<lista.length; k++)		
+{
+	if (matches(lista[k], ".*.png"))		
+	{	
+	open(path_in+File.separator+lista[k]);	
+	id=getImageID();	
+	title=getTitle();	
+	ntitle=replace(title, ".png","_cropped.tif");	
+
+makeRectangle(40, 34, 1464, 742);
+run("Crop");
+//copyright A.Lobodzinska
+saveAs("Tiff", path_out+File.separator+ntitle);	
+
+	close();
+print(ntitle, " saved");		
+	}	
+	else 	
+	{
+	titled=lista[k];		
+	print("the file ", titled, " is not an image");		
+	}
+}	
+print("koniec");	
+setBatchMode("exit and display");	
